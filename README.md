@@ -266,7 +266,7 @@ docker compose exec db psql -U postgres -d space_explorer
 | Image details | Immersive modal with overview, classifications, record metadata, live view count |
 | Add image | Same classify pipeline as seed, appearance quick-picks, novel-tag candidates → Filters, idempotent ingest |
 | Admin | Token-gated analytics for usage, top keywords, top viewed, new classifications |
-| Quality | Playwright e2e against the live stack; backend tests for scoring, tags, idempotency; GitHub Actions CI in stages (unit → build → API/e2e) |
+| Quality | Backend unit tests (tags, scoring, idempotency), frontend unit tests + production build, Playwright e2e locally against the live stack; GitHub Actions CI for unit/build stages |
 
 ### Demo
 
