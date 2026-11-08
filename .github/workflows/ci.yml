@@ -73,16 +73,11 @@ jobs:
           exit 1
       - name: Seed database
         run: docker compose -f docker-compose.dev.yml exec -T backend uv run python scripts/seed_db.py
-      - uses: astral-sh/setup-uv@v4
-        with:
-          enable-cache: true
       - name: Backend API tests
-        working-directory: backend
-        env:
-          API_BASE_URL: http://127.0.0.1:5001
+        # Run inside the backend container so we don't fight the bind-mounted .venv.
         run: |
-          uv sync --group dev
-          uv run pytest -q tests/test_api_endpoints.py
+          docker compose -f docker-compose.dev.yml exec -T backend \
+            sh -c "uv sync --group dev && API_BASE_URL=http://127.0.0.1:5001 uv run pytest -q tests/test_api_endpoints.py"
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
